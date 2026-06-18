@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulse - Carbon Footprint Awareness</title>
+    <meta name="description" content="Calculate your carbon footprint, track emissions, and earn eco points with EcoPulse.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <header class="glass-header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="ri-leaf-fill"></i>
+                <span>EcoPulse</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#dashboard" class="active">Dashboard</a></li>
+                    <li><a href="#calculator">Calculator</a></li>
+                    <li><a href="#suggestions">Suggestions</a></li>
+                </ul>
+            </nav>
+            <div class="user-stats-mini">
+                <div class="points-badge">
+                    <i class="ri-copper-coin-line"></i>
+                    <span id="nav-points">0</span> pts
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section glass-card fade-in">
+            <div class="dashboard-grid">
+                <div class="dash-item total-co2">
+                    <h3>Your Total Footprint</h3>
+                    <div class="co2-value">
+                        <span id="total-co2-display">0.0</span>
+                        <small>kg CO₂/year</small>
+                    </div>
+                    <p id="co2-status" class="status-badge neutral">Awaiting calculation</p>
+                </div>
+                
+                <div class="dash-item points-section">
+                    <h3>Eco Points</h3>
+                    <div class="points-circle">
+                        <span id="total-points">0</span>
+                    </div>
+                    <p>Make eco-friendly choices to earn more!</p>
+                </div>
+
+                <div class="dash-item badges-section">
+                    <h3>Your Badges</h3>
+                    <div class="badges-container" id="badges-container">
+                        <!-- Badges will be injected here -->
+                        <div class="empty-state">Complete a calculation to earn badges</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="breakdown-section" style="display: none;" id="breakdown-container">
+                <h3>Emission Breakdown</h3>
+                <div class="progress-bars">
+                    <div class="bar-group">
+                        <div class="bar-header">
+                            <span><i class="ri-lightbulb-flash-line"></i> Energy</span>
+                            <span id="energy-pct">0%</span>
+                        </div>
+                        <div class="bar-bg"><div class="bar-fill" id="energy-bar" style="width: 0%; background: var(--energy-color);"></div></div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar-header">
+                            <span><i class="ri-car-line"></i> Travel</span>
+                            <span id="travel-pct">0%</span>
+                        </div>
+                        <div class="bar-bg"><div class="bar-fill" id="travel-bar" style="width: 0%; background: var(--travel-color);"></div></div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar-header">
+                            <span><i class="ri-restaurant-line"></i> Food</span>
+                            <span id="food-pct">0%</span>
+                        </div>
+                        <div class="bar-bg"><div class="bar-fill" id="food-bar" style="width: 0%; background: var(--food-color);"></div></div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar-header">
+                            <span><i class="ri-recycle-line"></i> Plastic</span>
+                            <span id="plastic-pct">0%</span>
+                        </div>
+                        <div class="bar-bg"><div class="bar-fill" id="plastic-bar" style="width: 0%; background: var(--plastic-color);"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Section -->
+        <section id="calculator" class="section glass-card fade-in">
+            <h2><i class="ri-calculator-line"></i> Carbon Calculator</h2>
+            <p class="subtitle">Enter your details below to estimate your annual carbon footprint.</p>
+
+            <form id="footprint-form" class="calculator-form">
+                <div class="form-grid">
+                    <!-- Energy -->
+                    <div class="form-group input-card">
+                        <label for="energy-usage">
+                            <i class="ri-lightbulb-flash-line icon-energy"></i>
+                            Monthly Electricity (kWh)
+                        </label>
+                        <input type="number" id="energy-usage" min="0" placeholder="e.g. 250" required>
+                        <small>Average is around 250 kWh/month.</small>
+                    </div>
+
+                    <!-- Travel -->
+                    <div class="form-group input-card">
+                        <label for="travel-usage">
+                            <i class="ri-car-line icon-travel"></i>
+                            Weekly Car Travel (km)
+                        </label>
+                        <input type="number" id="travel-usage" min="0" placeholder="e.g. 150" required>
+                        <small>Distance driven in a personal vehicle.</small>
+                    </div>
+
+                    <!-- Food -->
+                    <div class="form-group input-card">
+                        <label for="food-diet">
+                            <i class="ri-restaurant-line icon-food"></i>
+                            Diet Type
+                        </label>
+                        <div class="custom-select-wrapper">
+                            <select id="food-diet" required>
+                                <option value="" disabled selected>Select your diet</option>
+                                <option value="meat-heavy">Meat Heavy (Daily)</option>
+                                <option value="average">Average (Meat 3-4x/week)</option>
+                                <option value="pescatarian">Pescatarian</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="vegan">Vegan</option>
+                            </select>
+                        </div>
+                        <small>Diet significantly impacts footprint.</small>
+                    </div>
+
+                    <!-- Plastic -->
+                    <div class="form-group input-card">
+                        <label for="plastic-usage">
+                            <i class="ri-recycle-line icon-plastic"></i>
+                            Weekly Plastic Waste (Items)
+                        </label>
+                        <input type="number" id="plastic-usage" min="0" placeholder="e.g. 10" required>
+                        <small>Bottles, bags, packaging, etc.</small>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <span>Calculate Footprint</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </button>
+                    <button type="button" id="reset-btn" class="btn btn-outline">Reset</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Suggestions Section -->
+        <section id="suggestions" class="section glass-card fade-in" style="display: none;">
+            <h2><i class="ri-seedling-line"></i> Personalized Suggestions</h2>
+            <p class="subtitle">Here's how you can reduce your impact based on your lifestyle.</p>
+            
+            <div class="suggestions-grid" id="suggestions-container">
+                <!-- Suggestions injected via JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2026 EcoPulse. Developed for a greener tomorrow.</p>
+            <div class="social-links">
+                <a href="#"><i class="ri-github-fill"></i></a>
+                <a href="#"><i class="ri-twitter-x-line"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
